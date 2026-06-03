@@ -15,54 +15,67 @@ public class AccountDAOTest {
         dao = new AccountDAO();
     }
 
-    /** Đăng nhập đúng username + password → trả về true và idAcc được gán */
+    /** Đăng nhập đúng → trả về Account với đầy đủ idAcc và role */
     @Test
     public void testCheckLogin_Success() {
-        Account u = new Account();
-        u.setUsername("admin");
-        u.setPassword("123456");
-
-        assertTrue("Đăng nhập đúng phải trả về true", dao.checkLogin(u));
-        assertNotNull("idAcc phải được gán sau khi đăng nhập thành công", u.getIdAcc());
+        Account user = dao.checkLogin("admin", "123456");
+        assertNotNull("Đăng nhập đúng phải trả về Account, không phải null", user);
+        assertNotNull("idAcc phải được gán", user.getIdAcc());
+        assertNotNull("Role phải được gán", user.getRole());
     }
 
-    /** Đăng nhập sai mật khẩu → trả về false */
+    /** Đăng nhập đúng với role Admin → role phải là 'Admin' */
+    @Test
+    public void testCheckLogin_AdminRole() {
+        Account user = dao.checkLogin("admin", "123456");
+        assertNotNull(user);
+        assertEquals("Tài khoản admin phải có role Admin",
+            Account.ROLE_ADMIN, user.getRole());
+    }
+
+    /** Đăng nhập đúng với role Manager */
+    @Test
+    public void testCheckLogin_ManagerRole() {
+        Account user = dao.checkLogin("manager", "123456");
+        assertNotNull(user);
+        assertEquals("Tài khoản manager phải có role Manager",
+            Account.ROLE_MANAGER, user.getRole());
+    }
+
+    /** Đăng nhập sai mật khẩu → trả về null */
     @Test
     public void testCheckLogin_WrongPassword() {
-        Account u = new Account();
-        u.setUsername("admin");
-        u.setPassword("wrong_pw");
-
-        assertFalse("Sai mật khẩu phải trả về false", dao.checkLogin(u));
+        Account user = dao.checkLogin("admin", "wrong_pw");
+        assertNull("Sai mật khẩu phải trả về null", user);
     }
 
-    /** Đăng nhập với username không tồn tại → trả về false */
+    /** Đăng nhập username không tồn tại → trả về null */
     @Test
     public void testCheckLogin_UserNotExist() {
-        Account u = new Account();
-        u.setUsername("not_exist_user");
-        u.setPassword("123456");
-
-        assertFalse("Username không tồn tại phải trả về false", dao.checkLogin(u));
+        Account user = dao.checkLogin("not_exist_user", "123456");
+        assertNull("Username không tồn tại phải trả về null", user);
     }
 
-    /** Đăng nhập với username rỗng → trả về false */
+    /** Đăng nhập username rỗng → trả về null */
     @Test
     public void testCheckLogin_EmptyUsername() {
-        Account u = new Account();
-        u.setUsername("");
-        u.setPassword("123456");
-
-        assertFalse("Username rỗng phải trả về false", dao.checkLogin(u));
+        Account user = dao.checkLogin("", "123456");
+        assertNull("Username rỗng phải trả về null", user);
     }
 
-    /** Đăng nhập với password rỗng → trả về false */
+    /** Đăng nhập password rỗng → trả về null */
     @Test
     public void testCheckLogin_EmptyPassword() {
-        Account u = new Account();
-        u.setUsername("admin");
-        u.setPassword("");
+        Account user = dao.checkLogin("admin", "");
+        assertNull("Password rỗng phải trả về null", user);
+    }
 
-        assertFalse("Password rỗng phải trả về false", dao.checkLogin(u));
+    /** isAdmin() / isManager() helper đúng */
+    @Test
+    public void testRoleHelpers() {
+        Account user = dao.checkLogin("admin", "123456");
+        assertNotNull(user);
+        assertTrue("isAdmin() phải trả về true cho admin", user.isAdmin());
+        assertFalse("isManager() phải false cho admin", user.isManager());
     }
 }
