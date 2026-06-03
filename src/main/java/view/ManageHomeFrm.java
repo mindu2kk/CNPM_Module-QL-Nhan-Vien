@@ -28,8 +28,8 @@ public class ManageHomeFrm extends JFrame implements ActionListener {
 
         String role = user.getRole() != null ? user.getRole() : "Employee";
 
-        // Nút quản lý nhân viên — chỉ Manager
-        if ("Manager".equalsIgnoreCase(role)) {
+        // Nút quản lý nhân viên — chỉ ai có quyền MANAGE_STAFF
+        if (user.hasPermission("MANAGE_STAFF")) {
             btnManageStaff = new JButton("Quản lý nhân viên");
             btnManageStaff.setPreferredSize(new Dimension(180, 40));
             btnManageStaff.setBackground(new Color(160, 210, 240));
@@ -50,10 +50,10 @@ public class ManageHomeFrm extends JFrame implements ActionListener {
         btnLogout.addActionListener(this);
         main.add(btnLogout);
 
-        // Thông báo cho Employee / Admin không có chức năng đặc biệt
-        if (!"Manager".equalsIgnoreCase(role)) {
+        // Thông báo cho người không có chức năng đặc biệt
+        if (!user.hasPermission("MANAGE_STAFF")) {
             JLabel lbl = new JLabel("<html>Xin chào, <b>" + user.getUsername() +
-                "</b>!&nbsp;&nbsp;Vai trò: " + role + "</html>");
+                "</b>!&nbsp;&nbsp;Vai trò: " + user.getRole() + "</html>");
             lbl.setFont(new Font("Arial", Font.PLAIN, 13));
             main.add(lbl);
         }
