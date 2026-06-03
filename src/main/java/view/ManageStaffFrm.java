@@ -135,7 +135,7 @@ public class ManageStaffFrm extends JFrame implements ActionListener {
         Staff s = new Staff(0, name, fRole.getText().trim(),
                             fTel.getText().trim(), fEmail.getText().trim());
         StaffDAO dao = new StaffDAO();
-        if (dao.addStaff(s) > 0) {
+        if (dao.addStaff(s) > -1) {
             JOptionPane.showMessageDialog(this, "Thêm nhân viên thành công!");
             loadAll();
         } else {

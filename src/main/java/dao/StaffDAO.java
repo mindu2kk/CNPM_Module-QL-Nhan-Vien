@@ -16,14 +16,14 @@ public class StaffDAO extends DAO {
     public Staff[] searchStaff(String key) {
         ArrayList<Staff> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM tblStaff WHERE fullname LIKE ? OR CAST(id AS CHAR) LIKE ?";
+            String sql = "SELECT * FROM tblStaff WHERE fullname LIKE ? OR CAST(ID AS CHAR) LIKE ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + key + "%");
             ps.setString(2, "%" + key + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Staff(
-                    rs.getInt("id"),
+                    rs.getInt("ID"),
                     rs.getString("fullname"),
                     rs.getString("role"),
                     rs.getString("tel"),
@@ -40,7 +40,7 @@ public class StaffDAO extends DAO {
      */
     public boolean updateStaff(Staff s) {
         try {
-            String sql = "UPDATE tblStaff SET fullname = ?, role = ?, tel = ?, email = ? WHERE id = ?";
+            String sql = "UPDATE tblStaff SET fullname = ?, role = ?, tel = ?, email = ? WHERE ID = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, s.getFullname());
             ps.setString(2, s.getRole());
@@ -71,7 +71,7 @@ public class StaffDAO extends DAO {
     /** Xóa nhân viên theo id */
     public boolean deleteStaff(int id) {
         try {
-            String sql = "DELETE FROM tblStaff WHERE id = ?";
+            String sql = "DELETE FROM tblStaff WHERE ID = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
