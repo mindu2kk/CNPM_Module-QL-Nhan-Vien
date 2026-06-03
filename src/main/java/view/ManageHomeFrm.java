@@ -1,0 +1,63 @@
+package view;
+
+import model.Account;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class ManageHomeFrm extends JFrame implements ActionListener {
+
+    private JButton btnManageStaff;
+    private JButton btnLogout;
+    private Account user;
+
+    public ManageHomeFrm(Account u) {
+        this.user = u;
+        setTitle("Trang chủ - " + u.getUsername());
+        setSize(420, 240);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        initComponents();
+    }
+
+    private void initComponents() {
+        JPanel main = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
+        main.setBackground(new Color(245, 246, 250));
+
+        btnManageStaff = new JButton("Quản lý nhân viên");
+        btnManageStaff.setPreferredSize(new Dimension(160, 40));
+        btnManageStaff.setBackground(new Color(160, 210, 240));
+        btnManageStaff.setForeground(Color.BLACK);
+        btnManageStaff.setFocusPainted(false);
+        btnManageStaff.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnManageStaff.addActionListener(this);
+
+        btnLogout = new JButton("Đăng xuất");
+        btnLogout.setPreferredSize(new Dimension(160, 40));
+        btnLogout.setBackground(new Color(240, 180, 170));
+        btnLogout.setForeground(Color.BLACK);
+        btnLogout.setFocusPainted(false);
+        btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnLogout.addActionListener(this);
+
+        main.add(btnManageStaff);
+        main.add(btnLogout);
+        add(main);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnManageStaff) {
+            new ManageStaffFrm(user).setVisible(true);
+        } else if (e.getSource() == btnLogout) {
+            int ok = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn đăng xuất?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (ok == JOptionPane.YES_OPTION) {
+                this.dispose();
+                new LoginFrm().setVisible(true);
+            }
+        }
+    }
+}
