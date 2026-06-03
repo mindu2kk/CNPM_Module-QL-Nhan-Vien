@@ -8,6 +8,7 @@ public class Account implements Serializable {
     private String idAcc;
     private String username;
     private String password;
+    private String role;       // Manager | Admin | Employee  (thêm để phân quyền)
     private String status;
     private Date   createDate;
     private Date   updateDate;
@@ -32,6 +33,9 @@ public class Account implements Serializable {
 
     public String  getPassword()                 { return password; }
     public void    setPassword(String password)  { this.password = password; }
+
+    public String  getRole()                     { return role; }
+    public void    setRole(String role)          { this.role = role; }
 
     public String  getStatus()                   { return status; }
     public void    setStatus(String status)      { this.status = status; }

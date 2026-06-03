@@ -15,7 +15,7 @@ public class ManageHomeFrm extends JFrame implements ActionListener {
 
     public ManageHomeFrm(Account u) {
         this.user = u;
-        setTitle("Trang chủ - " + u.getUsername());
+        setTitle("Trang chủ - " + u.getUsername() + " (" + u.getRole() + ")");
         setSize(420, 240);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,8 +42,20 @@ public class ManageHomeFrm extends JFrame implements ActionListener {
         btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnLogout.addActionListener(this);
 
-        main.add(btnManageStaff);
+        // Phân quyền: chỉ Manager mới thấy nút Quản lý nhân viên
+        String role = user.getRole() != null ? user.getRole() : "";
+        if ("Manager".equalsIgnoreCase(role)) {
+            main.add(btnManageStaff);
+        }
         main.add(btnLogout);
+
+        // Hiển thị thông báo quyền hạn cho user
+        if (!"Manager".equalsIgnoreCase(role)) {
+            JLabel lbl = new JLabel("Xin chào, " + user.getUsername() + "! Vai trò: " + role);
+            lbl.setFont(new Font("Arial", Font.PLAIN, 13));
+            main.add(lbl);
+        }
+
         add(main);
     }
 

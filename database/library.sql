@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS tblAccount (
     idAcc      VARCHAR(20)  NOT NULL PRIMARY KEY,
     username   VARCHAR(50)  NOT NULL UNIQUE,
     password   VARCHAR(100) NOT NULL,
+    role       VARCHAR(20)  NOT NULL DEFAULT 'Employee',  -- Manager | Admin | Employee
     status     VARCHAR(20)  NOT NULL DEFAULT 'active',
     createDate DATETIME     DEFAULT CURRENT_TIMESTAMP,
     updateDate DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -34,10 +35,10 @@ CREATE TABLE IF NOT EXISTS tblStaff (
 -- ============================================================
 -- Dữ liệu mẫu – tblAccount
 -- ============================================================
-INSERT INTO tblAccount (idAcc, username, password, status) VALUES
-('ACC001', 'admin',   '123456', 'active'),
-('ACC002', 'manager', '123456', 'active'),
-('ACC003', 'user01',  '123456', 'active');
+INSERT INTO tblAccount (idAcc, username, password, role, status) VALUES
+('ACC001', 'admin',   '123456', 'Admin',    'active'),
+('ACC002', 'manager', '123456', 'Manager',  'active'),
+('ACC003', 'user01',  '123456', 'Employee', 'active');
 
 -- ============================================================
 -- Dữ liệu mẫu – tblStaff

@@ -21,6 +21,7 @@ public class AccountDAO extends DAO {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 user.setIdAcc(rs.getString("idAcc"));
+                user.setRole(rs.getString("role"));
                 user.setStatus(rs.getString("status"));
                 user.setCreateDate(rs.getTimestamp("createDate"));
                 user.setUpdateDate(rs.getTimestamp("updateDate"));
