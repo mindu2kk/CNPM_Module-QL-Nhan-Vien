@@ -97,21 +97,19 @@ INSERT INTO Permission (permissionName, description) VALUES
 -- ============================================================
 -- Dữ liệu mẫu – tblRole_Permission
 -- ============================================================
--- Admin: có tất cả quyền
+-- Admin: chỉ quản lý tài khoản
 INSERT INTO tblRole_Permission (id, idRole, idPermission, assignDate, status) VALUES
-('RP001', 'ROLE_ADMIN', 1, NOW(), 'active'),
-('RP002', 'ROLE_ADMIN', 2, NOW(), 'active'),
-('RP003', 'ROLE_ADMIN', 3, NOW(), 'active'),
-('RP004', 'ROLE_ADMIN', 4, NOW(), 'active');
+('RP001', 'ROLE_ADMIN', 3, NOW(), 'active'),   -- MANAGE_ACCOUNT
+('RP002', 'ROLE_ADMIN', 4, NOW(), 'active');   -- VIEW_ACCOUNT
 
--- Manager: quản lý và xem nhân viên
+-- Manager: quản lý nhân viên
 INSERT INTO tblRole_Permission (id, idRole, idPermission, assignDate, status) VALUES
-('RP005', 'ROLE_MANAGER', 1, NOW(), 'active'),
-('RP006', 'ROLE_MANAGER', 2, NOW(), 'active');
+('RP003', 'ROLE_MANAGER', 1, NOW(), 'active'), -- MANAGE_STAFF
+('RP004', 'ROLE_MANAGER', 2, NOW(), 'active'); -- VIEW_STAFF
 
 -- Employee: chỉ xem nhân viên
 INSERT INTO tblRole_Permission (id, idRole, idPermission, assignDate, status) VALUES
-('RP007', 'ROLE_EMPLOYEE', 2, NOW(), 'active');
+('RP005', 'ROLE_EMPLOYEE', 2, NOW(), 'active'); -- VIEW_STAFF
 
 -- ============================================================
 -- Dữ liệu mẫu – tblAccount

@@ -99,11 +99,11 @@ public class AccountDAOTest {
         Account u = login("admin", "123456");
         Set<String> perms = u.getPermissions();
 
-        assertTrue("Admin phải có MANAGE_STAFF",   perms.contains("MANAGE_STAFF"));
-        assertTrue("Admin phải có VIEW_STAFF",     perms.contains("VIEW_STAFF"));
-        assertTrue("Admin phải có MANAGE_ACCOUNT", perms.contains("MANAGE_ACCOUNT"));
-        assertTrue("Admin phải có VIEW_ACCOUNT",   perms.contains("VIEW_ACCOUNT"));
-        assertEquals("Admin phải có đúng 4 permissions", 4, perms.size());
+        assertFalse("Admin không có MANAGE_STAFF",  perms.contains("MANAGE_STAFF"));
+        assertFalse("Admin không có VIEW_STAFF",    perms.contains("VIEW_STAFF"));
+        assertTrue("Admin phải có MANAGE_ACCOUNT",  perms.contains("MANAGE_ACCOUNT"));
+        assertTrue("Admin phải có VIEW_ACCOUNT",    perms.contains("VIEW_ACCOUNT"));
+        assertEquals("Admin phải có đúng 2 permissions", 2, perms.size());
     }
 
     @Test
@@ -111,10 +111,10 @@ public class AccountDAOTest {
         Account u = login("manager", "123456");
         Set<String> perms = u.getPermissions();
 
-        assertTrue ("Manager phải có MANAGE_STAFF",          perms.contains("MANAGE_STAFF"));
-        assertTrue ("Manager phải có VIEW_STAFF",            perms.contains("VIEW_STAFF"));
-        assertFalse("Manager không có MANAGE_ACCOUNT",       perms.contains("MANAGE_ACCOUNT"));
-        assertFalse("Manager không có VIEW_ACCOUNT",         perms.contains("VIEW_ACCOUNT"));
+        assertTrue ("Manager phải có MANAGE_STAFF",        perms.contains("MANAGE_STAFF"));
+        assertTrue ("Manager phải có VIEW_STAFF",          perms.contains("VIEW_STAFF"));
+        assertFalse("Manager không có MANAGE_ACCOUNT",     perms.contains("MANAGE_ACCOUNT"));
+        assertFalse("Manager không có VIEW_ACCOUNT",       perms.contains("VIEW_ACCOUNT"));
         assertEquals("Manager phải có đúng 2 permissions", 2, perms.size());
     }
 
@@ -137,10 +137,11 @@ public class AccountDAOTest {
     @Test
     public void hasPermission_Admin_TrueForAll() {
         Account u = login("admin", "123456");
-        assertTrue(u.hasPermission("MANAGE_STAFF"));
-        assertTrue(u.hasPermission("VIEW_STAFF"));
-        assertTrue(u.hasPermission("MANAGE_ACCOUNT"));
-        assertTrue(u.hasPermission("VIEW_ACCOUNT"));
+        // Admin chỉ có quyền quản lý tài khoản
+        assertFalse(u.hasPermission("MANAGE_STAFF"));
+        assertFalse(u.hasPermission("VIEW_STAFF"));
+        assertTrue (u.hasPermission("MANAGE_ACCOUNT"));
+        assertTrue (u.hasPermission("VIEW_ACCOUNT"));
     }
 
     @Test
@@ -180,7 +181,9 @@ public class AccountDAOTest {
     public void loadPermissions_AdminRole_Returns4() {
         Set<String> perms = dao.loadPermissions("ROLE_ADMIN");
         assertNotNull(perms);
-        assertEquals("ROLE_ADMIN phải có 4 permissions", 4, perms.size());
+        assertEquals("ROLE_ADMIN phải có 2 permissions", 2, perms.size());
+        assertTrue(perms.contains("MANAGE_ACCOUNT"));
+        assertTrue(perms.contains("VIEW_ACCOUNT"));
     }
 
     @Test
