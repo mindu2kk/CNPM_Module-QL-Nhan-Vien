@@ -40,7 +40,7 @@ public class EmployeeHomeFrm extends JFrame {
         // Nút đăng xuất
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 10));
         bottom.setBackground(new Color(245, 246, 250));
-        JButton btnLogout = buildButton("🚪 Đăng xuất", new Color(200, 60, 50));
+        JButton btnLogout = buildButton("🚪 Đăng xuất", new Color(240, 180, 170));
         btnLogout.addActionListener(e -> logout());
         bottom.add(btnLogout);
         main.add(bottom, BorderLayout.SOUTH);
@@ -67,7 +67,7 @@ public class EmployeeHomeFrm extends JFrame {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Arial", Font.BOLD, 13));
         btn.setBackground(bg);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(150, 36));

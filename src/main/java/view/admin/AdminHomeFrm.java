@@ -33,8 +33,8 @@ public class AdminHomeFrm extends JFrame {
         menu.setBackground(new Color(245, 246, 250));
         menu.setBorder(BorderFactory.createEmptyBorder(30, 40, 15, 40));
 
-        JButton btnAccount = buildBtn("🔐 Quản lý\nTài khoản", new Color(142, 68, 173));
-        JButton btnLogout  = buildBtn("🚪 Đăng xuất",          new Color(200, 60, 50));
+        JButton btnAccount = buildBtn("🔐 Quản lý\nTài khoản", new Color(210, 175, 230));
+        JButton btnLogout  = buildBtn("🚪 Đăng xuất",          new Color(240, 180, 170));
 
         btnAccount.addActionListener(e -> new ManageAccountFrm(user).setVisible(true));
         btnLogout.addActionListener(e  -> logout());
@@ -64,7 +64,7 @@ public class AdminHomeFrm extends JFrame {
         JButton btn = new JButton("<html><center>" + text.replace("\n", "<br>") + "</center></html>");
         btn.setFont(new Font("Arial", Font.BOLD, 13));
         btn.setBackground(bg);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(160, 70));

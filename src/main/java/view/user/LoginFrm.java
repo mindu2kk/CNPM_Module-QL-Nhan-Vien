@@ -66,8 +66,8 @@ public class LoginFrm extends JFrame implements ActionListener {
         btnPanel.setBackground(new Color(245, 246, 250));
         btnLogin = new JButton("  Đăng nhập  ");
         btnLogin.setFont(new Font("Arial", Font.BOLD, 13));
-        btnLogin.setBackground(new Color(25, 75, 160));
-        btnLogin.setForeground(Color.WHITE);
+        btnLogin.setBackground(new Color(180, 200, 240));
+        btnLogin.setForeground(Color.BLACK);
         btnLogin.setPreferredSize(new Dimension(150, 36));
         btnLogin.setFocusPainted(false);
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));

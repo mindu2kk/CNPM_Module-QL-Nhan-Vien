@@ -64,8 +64,8 @@ public class AccountDialog extends JDialog {
 
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 8));
         btnPanel.setBackground(new Color(245, 246, 250));
-        btnSave   = btn("💾 Lưu", new Color(39, 174, 96));
-        btnCancel = btn("✖ Hủy",  new Color(150, 150, 150));
+        btnSave   = btn("💾 Lưu", new Color(160, 220, 180));
+        btnCancel = btn("✖ Hủy",  new Color(200, 200, 200));
         btnPanel.add(btnSave);
         btnPanel.add(btnCancel);
 
@@ -131,7 +131,7 @@ public class AccountDialog extends JDialog {
     private JButton btn(String text, Color bg) {
         JButton b = new JButton(text);
         b.setBackground(bg);
-        b.setForeground(Color.WHITE);
+        b.setForeground(Color.BLACK);
         b.setFocusPainted(false);
         b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         b.setFont(new Font("Arial", Font.BOLD, 12));

@@ -13,7 +13,7 @@ public class DAO {
             // XAMPP mặc định: port 3306, password rỗng ""
             String dbUrl   = "jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
             String dbUser  = "root";
-            String dbPass  = "123456";
+            String dbPass  = "123456"; // ← Password MySQL của bạn
 
             try {
                 // Driver mới cho mysql-connector 8.x

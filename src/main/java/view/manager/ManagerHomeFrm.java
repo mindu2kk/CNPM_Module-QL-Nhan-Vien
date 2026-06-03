@@ -32,8 +32,8 @@ public class ManagerHomeFrm extends JFrame {
         menu.setBackground(new Color(245, 246, 250));
         menu.setBorder(BorderFactory.createEmptyBorder(30, 40, 10, 40));
 
-        JButton btnStaff  = buildBtn("👥 Quản lý\nNhân viên", new Color(41, 128, 185));
-        JButton btnLogout = buildBtn("🚪 Đăng xuất", new Color(200, 60, 50));
+        JButton btnStaff  = buildBtn("👥 Quản lý\nNhân viên", new Color(160, 210, 240));
+        JButton btnLogout = buildBtn("🚪 Đăng xuất",          new Color(240, 180, 170));
 
         btnStaff.addActionListener(e -> new ManageStaffFrm(user).setVisible(true));
         btnLogout.addActionListener(e -> logout());
@@ -63,7 +63,7 @@ public class ManagerHomeFrm extends JFrame {
         JButton btn = new JButton("<html><center>" + text.replace("\n", "<br>") + "</center></html>");
         btn.setFont(new Font("Arial", Font.BOLD, 13));
         btn.setBackground(bg);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setPreferredSize(new Dimension(160, 70));

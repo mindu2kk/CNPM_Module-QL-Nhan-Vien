@@ -45,11 +45,11 @@ public class ManageAccountFrm extends JFrame {
 
         top.add(new JLabel("Username / ID:"));
         txtSearch  = new JTextField(16);
-        btnSearch  = btn("🔍 Tìm",   new Color(41,  128, 185));
-        btnRefresh = btn("↺ Tất cả", new Color(100, 100, 100));
-        btnAdd     = btn("➕ Thêm",   new Color(39,  174, 96));
-        btnEdit    = btn("✏ Sửa",    new Color(230, 126, 34));
-        btnDelete  = btn("🗑 Xóa",   new Color(192,  57, 43));
+        btnSearch  = btn("🔍 Tìm",   new Color(160, 210, 240));
+        btnRefresh = btn("↺ Tất cả", new Color(200, 200, 200));
+        btnAdd     = btn("➕ Thêm",   new Color(160, 220, 180));
+        btnEdit    = btn("✏ Sửa",    new Color(250, 200, 140));
+        btnDelete  = btn("🗑 Xóa",   new Color(240, 160, 150));
 
         top.add(txtSearch);
         top.add(btnSearch);
@@ -194,7 +194,7 @@ public class ManageAccountFrm extends JFrame {
     private JButton btn(String text, Color bg) {
         JButton b = new JButton(text);
         b.setBackground(bg);
-        b.setForeground(Color.WHITE);
+        b.setForeground(Color.BLACK);
         b.setFocusPainted(false);
         b.setCursor(new Cursor(Cursor.HAND_CURSOR));
         b.setFont(new Font("Arial", Font.BOLD, 12));
