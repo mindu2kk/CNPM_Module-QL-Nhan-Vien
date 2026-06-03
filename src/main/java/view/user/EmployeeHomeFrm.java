@@ -5,9 +5,6 @@ import model.Account;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Trang chủ dành cho Employee – chỉ có thông tin cá nhân và đăng xuất.
- */
 public class EmployeeHomeFrm extends JFrame {
 
     private final Account user;

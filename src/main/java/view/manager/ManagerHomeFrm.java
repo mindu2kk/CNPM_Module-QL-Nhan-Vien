@@ -6,9 +6,7 @@ import view.user.LoginFrm;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Trang chủ dành cho Manager – chức năng: Quản lý nhân viên + Đăng xuất.
- */
+
 public class ManagerHomeFrm extends JFrame {
 
     private final Account user;

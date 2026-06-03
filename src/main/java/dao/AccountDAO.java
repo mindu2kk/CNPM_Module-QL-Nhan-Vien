@@ -10,29 +10,27 @@ public class AccountDAO extends DAO {
     public AccountDAO() { super(); }
 
     // ----------------------------------------------------------------
-    // Đăng nhập – trả về Account đầy đủ (có role) nếu hợp lệ, null nếu sai
+    // checkLogin(user : Account) : boolean  –  theo class diagram
+    // Nếu thành công, cập nhật idAcc, role, status vào object user.
     // ----------------------------------------------------------------
-    public Account checkLogin(String username, String password) {
+    public boolean checkLogin(Account user) {
         try {
-            String sql = "SELECT * FROM tblAccount WHERE username = ? AND password = ? AND status = 'active'";
+            String sql = "SELECT * FROM tblAccount WHERE username=? AND password=? AND status='active'";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, password);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Account a = new Account();
-                a.setIdAcc(rs.getString("idAcc"));
-                a.setUsername(rs.getString("username"));
-                a.setPassword(rs.getString("password"));
-                a.setRole(rs.getString("role"));
-                a.setStatus(rs.getString("status"));
-                a.setStaffId(rs.getObject("staffId") != null ? rs.getInt("staffId") : null);
-                a.setCreateDate(rs.getTimestamp("createDate"));
-                a.setUpdateDate(rs.getTimestamp("updateDate"));
-                return a;
+                user.setIdAcc(rs.getString("idAcc"));
+                user.setRole(rs.getString("role"));
+                user.setStatus(rs.getString("status"));
+                user.setStaffId(rs.getObject("staffId") != null ? rs.getInt("staffId") : null);
+                user.setCreateDate(rs.getTimestamp("createDate"));
+                user.setUpdateDate(rs.getTimestamp("updateDate"));
+                return true;
             }
         } catch (Exception e) { e.printStackTrace(); }
-        return null;
+        return false;
     }
 
     // ----------------------------------------------------------------
@@ -44,24 +42,13 @@ public class AccountDAO extends DAO {
             String sql = "SELECT * FROM tblAccount ORDER BY createDate DESC";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Account a = new Account();
-                a.setIdAcc(rs.getString("idAcc"));
-                a.setUsername(rs.getString("username"));
-                a.setPassword(rs.getString("password"));
-                a.setRole(rs.getString("role"));
-                a.setStatus(rs.getString("status"));
-                a.setStaffId(rs.getObject("staffId") != null ? rs.getInt("staffId") : null);
-                a.setCreateDate(rs.getTimestamp("createDate"));
-                a.setUpdateDate(rs.getTimestamp("updateDate"));
-                list.add(a);
-            }
+            while (rs.next()) list.add(map(rs));
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
 
     // ----------------------------------------------------------------
-    // Tìm kiếm tài khoản theo username
+    // Tìm kiếm tài khoản theo username hoặc idAcc
     // ----------------------------------------------------------------
     public ArrayList<Account> searchAccounts(String key) {
         ArrayList<Account> list = new ArrayList<>();
@@ -71,18 +58,7 @@ public class AccountDAO extends DAO {
             ps.setString(1, "%" + key + "%");
             ps.setString(2, "%" + key + "%");
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Account a = new Account();
-                a.setIdAcc(rs.getString("idAcc"));
-                a.setUsername(rs.getString("username"));
-                a.setPassword(rs.getString("password"));
-                a.setRole(rs.getString("role"));
-                a.setStatus(rs.getString("status"));
-                a.setStaffId(rs.getObject("staffId") != null ? rs.getInt("staffId") : null);
-                a.setCreateDate(rs.getTimestamp("createDate"));
-                a.setUpdateDate(rs.getTimestamp("updateDate"));
-                list.add(a);
-            }
+            while (rs.next()) list.add(map(rs));
         } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
@@ -92,7 +68,7 @@ public class AccountDAO extends DAO {
     // ----------------------------------------------------------------
     public boolean addAccount(Account a) {
         try {
-            String sql = "INSERT INTO tblAccount(idAcc, username, password, role, status, staffId) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO tblAccount(idAcc,username,password,role,status,staffId) VALUES(?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, a.getIdAcc());
             ps.setString(2, a.getUsername());
@@ -106,15 +82,14 @@ public class AccountDAO extends DAO {
     }
 
     // ----------------------------------------------------------------
-    // Cập nhật tài khoản (username, role, status, staffId)
-    // Nếu password != null thì đổi luôn, null = giữ nguyên
+    // Cập nhật tài khoản (username, password, role, status, staffId)
+    // password == null → giữ nguyên
     // ----------------------------------------------------------------
     public boolean updateAccount(Account a) {
         try {
-            String sql;
             PreparedStatement ps;
             if (a.getPassword() != null && !a.getPassword().isEmpty()) {
-                sql = "UPDATE tblAccount SET username=?, password=?, role=?, status=?, staffId=?, updateDate=NOW() WHERE idAcc=?";
+                String sql = "UPDATE tblAccount SET username=?,password=?,role=?,status=?,staffId=?,updateDate=NOW() WHERE idAcc=?";
                 ps = con.prepareStatement(sql);
                 ps.setString(1, a.getUsername());
                 ps.setString(2, a.getPassword());
@@ -124,7 +99,7 @@ public class AccountDAO extends DAO {
                 else ps.setNull(5, java.sql.Types.INTEGER);
                 ps.setString(6, a.getIdAcc());
             } else {
-                sql = "UPDATE tblAccount SET username=?, role=?, status=?, staffId=?, updateDate=NOW() WHERE idAcc=?";
+                String sql = "UPDATE tblAccount SET username=?,role=?,status=?,staffId=?,updateDate=NOW() WHERE idAcc=?";
                 ps = con.prepareStatement(sql);
                 ps.setString(1, a.getUsername());
                 ps.setString(2, a.getRole());
@@ -138,24 +113,11 @@ public class AccountDAO extends DAO {
     }
 
     // ----------------------------------------------------------------
-    // Đổi mật khẩu
-    // ----------------------------------------------------------------
-    public boolean changePassword(String idAcc, String newPassword) {
-        try {
-            String sql = "UPDATE tblAccount SET password=?, updateDate=NOW() WHERE idAcc=?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, newPassword);
-            ps.setString(2, idAcc);
-            return ps.executeUpdate() > 0;
-        } catch (Exception e) { e.printStackTrace(); return false; }
-    }
-
-    // ----------------------------------------------------------------
     // Xóa tài khoản
     // ----------------------------------------------------------------
     public boolean deleteAccount(String idAcc) {
         try {
-            String sql = "DELETE FROM tblAccount WHERE idAcc = ?";
+            String sql = "DELETE FROM tblAccount WHERE idAcc=?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, idAcc);
             return ps.executeUpdate() > 0;
@@ -163,16 +125,15 @@ public class AccountDAO extends DAO {
     }
 
     // ----------------------------------------------------------------
-    // Sinh ID tự động (ACC001, ACC002, ...)
+    // Sinh ID tự động ACC001, ACC002, ...
     // ----------------------------------------------------------------
     public String generateNextId() {
         try {
-            String sql = "SELECT idAcc FROM tblAccount ORDER BY idAcc DESC LIMIT 1";
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT idAcc FROM tblAccount ORDER BY idAcc DESC LIMIT 1");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String last = rs.getString("idAcc"); // e.g. "ACC005"
-                int num = Integer.parseInt(last.replaceAll("[^0-9]", "")) + 1;
+                int num = Integer.parseInt(rs.getString("idAcc").replaceAll("[^0-9]", "")) + 1;
                 return String.format("ACC%03d", num);
             }
         } catch (Exception e) { e.printStackTrace(); }
@@ -180,16 +141,31 @@ public class AccountDAO extends DAO {
     }
 
     // ----------------------------------------------------------------
-    // Kiểm tra username đã tồn tại chưa (bỏ qua idAcc hiện tại khi update)
+    // Kiểm tra username đã tồn tại chưa
     // ----------------------------------------------------------------
     public boolean isUsernameExists(String username, String excludeIdAcc) {
         try {
-            String sql = "SELECT idAcc FROM tblAccount WHERE username = ? AND idAcc != ?";
+            String sql = "SELECT idAcc FROM tblAccount WHERE username=? AND idAcc!=?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, excludeIdAcc != null ? excludeIdAcc : "");
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+            return ps.executeQuery().next();
         } catch (Exception e) { e.printStackTrace(); return false; }
+    }
+
+    // ----------------------------------------------------------------
+    // Map ResultSet → Account
+    // ----------------------------------------------------------------
+    private Account map(ResultSet rs) throws Exception {
+        Account a = new Account();
+        a.setIdAcc(rs.getString("idAcc"));
+        a.setUsername(rs.getString("username"));
+        a.setPassword(rs.getString("password"));
+        a.setRole(rs.getString("role"));
+        a.setStatus(rs.getString("status"));
+        a.setStaffId(rs.getObject("staffId") != null ? rs.getInt("staffId") : null);
+        a.setCreateDate(rs.getTimestamp("createDate"));
+        a.setUpdateDate(rs.getTimestamp("updateDate"));
+        return a;
     }
 }

@@ -6,6 +6,4 @@ package view.user;
  */
 @Deprecated
 public class ManageHomeFrm {
-    // Không sử dụng nữa – xem view.user.EmployeeHomeFrm,
-    // view.manager.ManagerHomeFrm, view.admin.AdminHomeFrm
 }

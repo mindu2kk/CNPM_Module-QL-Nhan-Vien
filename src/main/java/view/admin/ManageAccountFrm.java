@@ -9,10 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-/**
- * Màn hình Quản lý tài khoản dành cho Admin.
- * Chức năng: Thêm, Sửa (gồm phân quyền), Xóa, Tìm kiếm tài khoản.
- */
+
 public class ManageAccountFrm extends JFrame {
 
     private final Account adminUser;

@@ -8,12 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
-/**
- * Màn hình Quản lý nhân viên dành cho Manager.
- * Chức năng: Thêm, Sửa, Xóa, Tìm kiếm nhân viên.
- */
 public class ManageStaffFrm extends JFrame {
 
     private final Account user;
@@ -23,7 +18,7 @@ public class ManageStaffFrm extends JFrame {
     private JButton    btnSearch, btnAdd, btnEdit, btnDelete, btnRefresh;
     private JTable     tblStaff;
     private DefaultTableModel tableModel;
-    private ArrayList<Staff>  currentList = new ArrayList<>();
+    private Staff[]    currentList = new Staff[0];
 
     public ManageStaffFrm(Account u) {
         this.user = u;
@@ -93,7 +88,9 @@ public class ManageStaffFrm extends JFrame {
     // Load dữ liệu lên bảng
     // ----------------------------------------------------------------
     private void loadData(String key) {
-        currentList = key.isEmpty() ? staffDAO.getAllStaff() : staffDAO.searchStaff(key);
+        currentList = key.isEmpty()
+            ? staffDAO.getAllStaff().toArray(new Staff[0])
+            : staffDAO.searchStaff(key);
         tableModel.setRowCount(0);
         for (Staff s : currentList) {
             tableModel.addRow(new Object[]{
@@ -130,7 +127,7 @@ public class ManageStaffFrm extends JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên cần sửa.");
             return;
         }
-        Staff selected = currentList.get(row);
+        Staff selected = currentList[row];
         StaffDialog dlg = new StaffDialog(this, "Sửa thông tin nhân viên", selected);
         dlg.setVisible(true);
         Staff updated = dlg.getResult();
@@ -155,7 +152,7 @@ public class ManageStaffFrm extends JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên cần xóa.");
             return;
         }
-        Staff selected = currentList.get(row);
+        Staff selected = currentList[row];
         int confirm = JOptionPane.showConfirmDialog(this,
             "Xác nhận xóa nhân viên: " + selected.getFullname() + "?",
             "Xác nhận xóa", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

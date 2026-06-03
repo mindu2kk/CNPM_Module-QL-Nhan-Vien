@@ -6,10 +6,7 @@ import model.Account;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Dialog dùng chung để Thêm mới hoặc Sửa tài khoản.
- * Cho phép Admin đặt Role (phân quyền) và Status cho tài khoản.
- */
+
 public class AccountDialog extends JDialog {
 
     private JTextField    txtUsername, txtPassword, txtStaffId;

@@ -6,10 +6,7 @@ import view.user.LoginFrm;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Trang chủ dành cho Admin.
- * Chức năng: Quản lý tài khoản (CRUD + phân quyền) + Đăng xuất.
- */
+
 public class AdminHomeFrm extends JFrame {
 
     private final Account user;

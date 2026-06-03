@@ -10,13 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Màn hình đăng nhập chung cho tất cả nhân viên.
- * Sau khi xác thực, hệ thống điều hướng theo role:
- *   Admin    -> AdminHomeFrm
- *   Manager  -> ManagerHomeFrm
- *   Employee -> EmployeeHomeFrm
- */
+
 public class LoginFrm extends JFrame implements ActionListener {
 
     private JTextField     txtUN;
@@ -92,12 +86,14 @@ public class LoginFrm extends JFrame implements ActionListener {
             return;
         }
 
-        AccountDAO dao = new AccountDAO();
-        Account user = dao.checkLogin(username, password);
+        Account user = new Account();
+        user.setUsername(username);
+        user.setPassword(password);
 
-        if (user != null) {
+        AccountDAO dao = new AccountDAO();
+        if (dao.checkLogin(user)) {  // checkLogin trả về boolean, cập nhật role vào user
             this.dispose();
-            // Phân quyền – điều hướng màn hình tương ứng
+            // Phân quyền theo role
             switch (user.getRole()) {
                 case Account.ROLE_ADMIN:
                     new AdminHomeFrm(user).setVisible(true);

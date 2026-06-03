@@ -10,14 +10,16 @@ CREATE DATABASE IF NOT EXISTS library
 USE library;
 
 -- ============================================================
--- Bảng tblStaff (nhân viên) – tạo trước vì tblAccount tham chiếu
+-- Bảng tblStaff (nhân viên)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS tblStaff (
-    id        INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    fullname  VARCHAR(100) NOT NULL,
-    role      VARCHAR(50)  NOT NULL,   -- 'Manager' | 'Employee' | 'Admin'
-    tel       VARCHAR(15),
-    email     VARCHAR(100)
+    id         INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fullname   VARCHAR(100) NOT NULL,
+    role       VARCHAR(50)  NOT NULL,   -- 'Manager' | 'Employee' | 'Admin'
+    tel        VARCHAR(15),
+    email      VARCHAR(100),
+    createDate DATETIME     DEFAULT CURRENT_TIMESTAMP,
+    status     VARCHAR(20)  NOT NULL DEFAULT 'active'   -- active | inactive
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ============================================================
@@ -40,12 +42,12 @@ CREATE TABLE IF NOT EXISTS tblAccount (
 -- ============================================================
 -- Dữ liệu mẫu – tblStaff
 -- ============================================================
-INSERT INTO tblStaff (id, fullname, role, tel, email) VALUES
-(1, 'Nguyen Van An',   'Admin',    '0901234567', 'an.nguyen@lib.vn'),
-(2, 'Tran Thi Binh',   'Manager',  '0912345678', 'binh.tran@lib.vn'),
-(3, 'Le Van Cuong',    'Employee', '0923456789', 'cuong.le@lib.vn'),
-(4, 'Pham Thi Dung',   'Employee', '0934567890', 'dung.pham@lib.vn'),
-(5, 'Hoang Van Em',    'Employee', '0945678901', 'em.hoang@lib.vn');
+INSERT INTO tblStaff (id, fullname, role, tel, email, status) VALUES
+(1, 'Nguyen Van An',   'Admin',    '0901234567', 'an.nguyen@lib.vn',    'active'),
+(2, 'Tran Thi Binh',   'Manager',  '0912345678', 'binh.tran@lib.vn',    'active'),
+(3, 'Le Van Cuong',    'Employee', '0923456789', 'cuong.le@lib.vn',     'active'),
+(4, 'Pham Thi Dung',   'Employee', '0934567890', 'dung.pham@lib.vn',    'active'),
+(5, 'Hoang Van Em',    'Employee', '0945678901', 'em.hoang@lib.vn',     'active');
 
 -- ============================================================
 -- Dữ liệu mẫu – tblAccount  (password: 123456)
