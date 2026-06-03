@@ -10,48 +10,63 @@ import java.awt.event.ActionListener;
 public class ManageHomeFrm extends JFrame implements ActionListener {
 
     private JButton btnManageStaff;
+    private JButton btnManageAccount;
     private JButton btnLogout;
     private Account user;
 
     public ManageHomeFrm(Account u) {
         this.user = u;
         setTitle("Trang chủ - " + u.getUsername() + " (" + u.getRole() + ")");
-        setSize(420, 240);
+        setSize(500, 280);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initComponents();
     }
 
     private void initComponents() {
-        JPanel main = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 40));
+        JPanel main = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
         main.setBackground(new Color(245, 246, 250));
 
-        btnManageStaff = new JButton("Quản lý nhân viên");
-        btnManageStaff.setPreferredSize(new Dimension(160, 40));
-        btnManageStaff.setBackground(new Color(160, 210, 240));
-        btnManageStaff.setForeground(Color.BLACK);
-        btnManageStaff.setFocusPainted(false);
-        btnManageStaff.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnManageStaff.addActionListener(this);
+        String role = user.getRole() != null ? user.getRole() : "Employee";
 
+        // Nút quản lý nhân viên — chỉ Manager
+        if ("Manager".equalsIgnoreCase(role)) {
+            btnManageStaff = new JButton("Quản lý nhân viên");
+            btnManageStaff.setPreferredSize(new Dimension(180, 40));
+            btnManageStaff.setBackground(new Color(160, 210, 240));
+            btnManageStaff.setForeground(Color.BLACK);
+            btnManageStaff.setFocusPainted(false);
+            btnManageStaff.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btnManageStaff.addActionListener(this);
+            main.add(btnManageStaff);
+        }
+
+        // Nút quản lý tài khoản — chỉ Admin
+        if ("Admin".equalsIgnoreCase(role)) {
+            btnManageAccount = new JButton("Quản lý tài khoản");
+            btnManageAccount.setPreferredSize(new Dimension(180, 40));
+            btnManageAccount.setBackground(new Color(210, 175, 230));
+            btnManageAccount.setForeground(Color.BLACK);
+            btnManageAccount.setFocusPainted(false);
+            btnManageAccount.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btnManageAccount.addActionListener(this);
+            main.add(btnManageAccount);
+        }
+
+        // Nút đăng xuất — tất cả
         btnLogout = new JButton("Đăng xuất");
-        btnLogout.setPreferredSize(new Dimension(160, 40));
+        btnLogout.setPreferredSize(new Dimension(180, 40));
         btnLogout.setBackground(new Color(240, 180, 170));
         btnLogout.setForeground(Color.BLACK);
         btnLogout.setFocusPainted(false);
         btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnLogout.addActionListener(this);
-
-        // Phân quyền: chỉ Manager mới thấy nút Quản lý nhân viên
-        String role = user.getRole() != null ? user.getRole() : "";
-        if ("Manager".equalsIgnoreCase(role)) {
-            main.add(btnManageStaff);
-        }
         main.add(btnLogout);
 
-        // Hiển thị thông báo quyền hạn cho user
-        if (!"Manager".equalsIgnoreCase(role)) {
-            JLabel lbl = new JLabel("Xin chào, " + user.getUsername() + "! Vai trò: " + role);
+        // Thông báo vai trò cho Employee
+        if ("Employee".equalsIgnoreCase(role)) {
+            JLabel lbl = new JLabel("<html>Xin chào, <b>" + user.getUsername() +
+                "</b>!<br>Vai trò: " + role + "</html>");
             lbl.setFont(new Font("Arial", Font.PLAIN, 13));
             main.add(lbl);
         }
@@ -63,6 +78,8 @@ public class ManageHomeFrm extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnManageStaff) {
             new ManageStaffFrm(user).setVisible(true);
+        } else if (e.getSource() == btnManageAccount) {
+            new ManageAccountFrm(user).setVisible(true);
         } else if (e.getSource() == btnLogout) {
             int ok = JOptionPane.showConfirmDialog(this,
                 "Bạn có chắc muốn đăng xuất?", "Xác nhận", JOptionPane.YES_NO_OPTION);
